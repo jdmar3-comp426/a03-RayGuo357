@@ -99,8 +99,9 @@ export function removeKeyNonDestructive(object, key) {
  * @return {*} The object with its keys removed.
  */
 export function removeKeys(object, keyList) {
+   let output = [...object]
    for(let i = 0; i < keyList.length; i++) {
-      delete object[keyList[i]]
+      delete output[keyList[i]]
    }
-   return object
+   return output
 }
