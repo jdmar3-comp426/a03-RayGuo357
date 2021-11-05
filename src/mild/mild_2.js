@@ -104,12 +104,3 @@ export function removeKeys(object, keyList) {
    }
    return object
 }
-
-let obj = {
-   name: 'Mr. Boss',
-   title: 'boss',
-   age: 33,
-   password: 'pass123'
-};
-obj = removeKeys(obj, ['password', 'age']);
-console.log(obj)
