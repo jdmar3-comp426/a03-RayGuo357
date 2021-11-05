@@ -102,4 +102,14 @@ export function removeKeys(object, keyList) {
    for(let i = 0; i < keyList.length; i++) {
       delete object[keyList[i]]
    }
+   return object
 }
+
+let obj = {
+   name: 'Mr. Boss',
+   title: 'boss',
+   age: 33,
+   password: 'pass123'
+};
+obj = removeKeys(obj, ['password', 'age']);
+console.log(obj)
