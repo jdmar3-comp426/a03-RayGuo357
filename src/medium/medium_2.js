@@ -1,5 +1,5 @@
 import mpg_data from "./data/mpg_data.js";
-import {getStatistics} from "./medium_1.js";
+import { getStatistics } from "./medium_1.js";
 
 /*
 This section can be done by using the array prototype functions.
@@ -20,9 +20,12 @@ see under the methods section
  * @param {allCarStats.ratioHybrids} ratio of cars that are hybrids
  */
 export const allCarStats = {
-    avgMpg: undefined,
-    allYearStats: undefined,
-    ratioHybrids: undefined,
+    avgMpg: {
+        city: mpg_data.map(cars => cars.city_mpg).reduce((prevValue, curValue) => prevValue + curValue) / mpg_data.length,
+        highway: mpg_data.map(cars => cars.highway_mpg).reduce((prevValue, curValue) => prevValue + curValue) / mpg_data.length
+    },
+    allYearStats: getStatistics(mpg_data.map(cars => cars.year)),
+    ratioHybrids: mpg_data.filter(cars => cars.hybrid).length / mpg_data.length,
 };
 
 
@@ -84,6 +87,41 @@ export const allCarStats = {
  * }
  */
 export const moreStats = {
-    makerHybrids: undefined,
+    makerHybrids: mpg_data.reduce(function (arr, item) {
+        arr[item.make] = arr[item.make] || []
+        if (item.hybrid) arr[item.make].push(item.hybrid)
+        return arr
+    }),
     avgMpgByYearAndHybrid: undefined
 };
+console.log(moreStats.makerHybrids)
+
+mpg_data.map(cars => (
+    {
+        "make": cars.make,
+        "hybrids": mpg_data.filter(x => x.make == cars.make && x.hybrid).map(c => c.id)
+    }
+))
+
+mpg_data.reduce(function (arr, item) {
+    arr[item.make] = arr[item.make] || []
+    if (item.hybrid) arr[item.make].push(item.hybrid)
+    return arr
+})
+
+mpg_data.map(function (cars) {
+    let result = {}
+    Object.defineProperties(result, {
+        make: {
+            value: cars.make,
+            writable: true,
+            enumerable: true
+        },
+        hybrids: {
+            value: mpg_data.filter(x => x.make == cars.make && x.hybrid).map(c => c.id),
+            writable: true,
+            enumerable: true
+        }
+    })
+    return result
+})
